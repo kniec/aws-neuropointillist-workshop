@@ -1,5 +1,9 @@
 +++
 title = "a. Permutation Testing"
+date = 2019-09-18T10:46:30-04:00 
+weight = 30 
+tags = ["tutorial","testing","ETAC", "Permutation"]
++++
 
 This assumes that you have completed the finger-foot-lips example
 using the `nlmemodel.R` model. You should have a directory called
@@ -39,7 +43,7 @@ It's important to understand the model you want to test, and specifically the nu
 
 There are many different ways of shuffling data within and between grouping-levels (exchangeability blocks; Winkler et al, 2014), and methods of developing appropriate permutations for this. In the finger-foot-lips example, I will shuffle observations within-person by shifting the observations by some random amount for each person, per permutation (this maintains the strongly autocorrelated structure of the data). I don't shuffle observations at all between different participants, or between different runs, though you might have some reason to do so. 
 
-I say we shuffle observations, but really, what we do in this first step is create a matrix that tells us, for each permutation, how the observations should be ordered. It is thus a $P\times N$ matrix where P is the number of permutations (e.g., 1000) and N is the number of rows in the data. We have  observations in these data, so our matrix is $1000\times 3660$. Since you've already run the target model you can simply load the debug data and use that to create your permutation matrix. It's important to be sure that the data set you use to generate permutations is exactly what will be used by the model. This means that any rows that would be automatically dropped by, e.g., `nlme`, should be dropped when generating the permutation matrix. Here's the code I've used to generate the permutation matrix:
+I say we shuffle observations, but really, what we do in this first step is create a matrix that tells us, for each permutation, how the observations should be ordered. It is thus a P*N matrix where P is the number of permutations (e.g., 1000) and N is the number of rows in the data. We have  observations in these data, so our matrix is 1000 * 3660. Since you've already run the target model you can simply load the debug data and use that to create your permutation matrix. It's important to be sure that the data set you use to generate permutations is exactly what will be used by the model. This means that any rows that would be automatically dropped by, e.g., `nlme`, should be dropped when generating the permutation matrix. Here's the code I've used to generate the permutation matrix:
 
 ```
 #!/usr/bin/env Rscript
@@ -69,7 +73,7 @@ saveRDS(perm_set, permpath)
 
 This script outputs a single file called `permutations.RDS` which needs to be copied into the permutation base directory once we've created it. But first we need to write the processVoxel funciton.
 
-# processVoxel for permutations
+## processVoxel for permutations
 
 This processVoxel function will be run once for every voxel, for every permutation. The voxel is indexed with variable `v` and the permutation with `permutationNumber`. We want it to return a single value that is the test statistic estimated on data constructed so the null hypothesis is true. We will focus on the contrast for finger tapping.
 
