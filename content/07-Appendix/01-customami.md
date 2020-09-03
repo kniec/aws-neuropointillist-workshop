@@ -13,16 +13,19 @@ software every time you launch. The ways to customize ParallelCluster are
 described [in the
 documentation](https://docs.aws.amazon.com/parallelcluster/latest/ug/tutorials_02_ami_customization.html#build-a-custom-aws-parallelcluster-ami).
 
-Here we describe the brute force, not recommended way to do this,
-because it is the easiest. We 
+If you just have one isolated binary application to run, you can just
+put your code and data on the shared drive and ignore this
+customization. But most neuroimaging packages like to be in particular
+places, so this approach might be more trouble than it saves.
+
+Here we describe the brute force, not recommended way to customize ParallelCluster,
+because it is the easiest to do without becoming a system administrator on the side. We 
 use the method of [modifying an AWS ParallelCluster AMI](https://docs.aws.amazon.com/parallelcluster/latest/ug/tutorials_02_ami_customization.html#modify-an-aws-parallelcluster-ami). 
 
-The world will not end.
 
 ##  Identify the base AMI
 The first step is to identify the AMI that corresponds to the region 
-and the operating system you select. This tutorial takes place in the *us-east-1* region, so 
-for version 2.8.1, the correct AMI for this region and for Ubuntu 18.04
+and the operating system you select. This tutorial takes place in the *us-east-1* region, so for version 2.8.1, the correct AMI for this region and for Ubuntu 18.04
 (the region and the OS and the version are important) is 
 *ami-06889493c801d0916*. If there is a newer version of 
 ParallelCluster, you should start with the AMI for that version to get the latest 
@@ -34,7 +37,7 @@ Now you are at the point of customizing your instance. The following
 commands were used to install software for this workshop. They run on 
 Ubuntu. 
 
-First install R and some dependencies.
+First install R and some dependencies. Commented links include some of the instructions for these steps to explain what's happening.
 ```bash
 #https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-18-04-quickstart
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
@@ -43,6 +46,8 @@ sudo apt update
 
 # These are required for R
 sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
+
+# Emacs is my favorite editor - install your favorite
 sudo apt-get install emacs25
 
 # Install R

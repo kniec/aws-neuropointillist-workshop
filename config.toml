@@ -50,18 +50,18 @@ page = [ "HTML", "AMP"]
 
 
 [[menu.shortcuts]]
-name = "<i class='fas fa-bookmark'></i> AWS - HPC"
-url = "https://aws.amazon.com/hpc/"
+name = "<i class='fas fa-bookmark'></i> AWS - Research"
+url = "https://aws.amazon.com/government-education/research-and-technical-computing"
 weight = 10
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-users'></i> Authors"
-url = "https://www.aws-neuropointillist-workshop.org/authors.html"
+url = "https://https://master.dh0bc6a3ml9m0.amplifyapp.com//authors.html"
 weight = 20
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-bookmark'></i> Feedback"
-url = "https://survey.immersionday.com/Rs8ggvVGR"
+url = "https://survey.immersionday.com/xPnUMpDGg"
 weight = 30
 
 [[menu.shortcuts]]

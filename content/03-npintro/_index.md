@@ -2,8 +2,8 @@
 title: "Running Neuropointillist"
 date: 2019-01-24T09:05:54Z
 weight: 300
-pre: "<b>IV ⁃ </b>"
-tags: ["WRF", "Overview"]
+pre: "<b>III ⁃ </b>"
+tags: ["Neuropoint", "Overview"]
 ---
 
 Now that you have a cluster with all the software installed, we will

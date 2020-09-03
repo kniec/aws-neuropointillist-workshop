@@ -40,6 +40,10 @@ entire link.
 Depending on your browser, you might get a warning. You can bypass
 this by clicking *Advanced* and then *Accept the Risk and Continue*.
 
+You can also use `ssh` to access the cluster as follows.
+```bash
+pcluster ssh npointclust -i ~/.ssh/neuropoint-key
+```
 
 
 
