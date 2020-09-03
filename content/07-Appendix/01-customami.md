@@ -65,7 +65,14 @@ bash  Miniconda3-latest-Linux-x86_64.sh
 # source the miniconda changes.
 bash
 conda install -c conda-forge fsleyes
+```
+If you are doing more extensive work with FSL, you can also install FSL.
 
+
+We also followed directions for [installing AFNI](https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/install_instructs/steps_linux_ubuntu18.html#what-to-do), ignoring the R bits because we already did that.
+
+We can install RStudio.
+```bash
 #install RStudio - see docs
 #https://rstudio.com/products/rstudio/download-server/debian-ubuntu/
 sudo apt-get install gdebi-core
@@ -89,6 +96,7 @@ install.packages("reticulate", lib=Sys.getenv("R_LIBS_USER"))
 install.packages("nlme",lib=Sys.getenv("R_LIBS_USER"))
 install.packages("lme4",lib=Sys.getenv("R_LIBS_USER"))
 install.packages("lmerTest",lib=Sys.getenv("R_LIBS_USER"))
+install.packages("permute",lib=Sys.getenv("R_LIBS_USER"))
 EOF
 Rscript /tmp/rscriptcommands.R
 ```
