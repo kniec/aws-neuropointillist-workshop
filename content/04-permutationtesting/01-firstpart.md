@@ -291,11 +291,13 @@ The `3dMultiThresh` command creates a version of your group-level model that is 
 
 The following code presumes that the group-level model output for the variable of interest is a file called `../nlmemodel/n.finger.tstat.nii.gz`, and that it has been set up so that AFNI knows that it is a map of *t*-statistics with specific degrees of freedom. It may be simpler to ensure that the group-level map is output in terms of *Z*-scores. It still may be necessary to run, e.g., `3drefit -fizt group_stats_map.nii.gz`.
 
+_Note:_ I set `-prefix` and `-allmask` below to create the new files in the directory of the target model, `../nlmemodel/`.
+
 ```bash
-3dMultiThresh -mthresh n.p.0001finger-Z.3dXClust.mthresh.A.5perc+tlrc \
+3dMultiThresh -mthresh n.p.0001finger-Z.3dXClust.mthresh.A.5perc+orig \
     -input ../nlmemodel/n.finger.tstat.nii.gz \
-    -prefix n.finger.tstat.multi-threshed.nii.gz \
-    -allmask n.finger.tstat.multi-threshed.all-mask.nii.gz \
+    -prefix ../nlmemodel/n.finger.tstat.multi-threshed.nii.gz \
+    -allmask ../nlmemodel/n.finger.tstat.multi-threshed.all-mask.nii.gz \
     -nozero
 ```
 
