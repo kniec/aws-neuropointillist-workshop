@@ -100,8 +100,6 @@ install.packages("permute",lib=Sys.getenv("R_LIBS_USER"))
 EOF
 Rscript /tmp/rscriptcommands.R
 ```
-We did not install FSL or AFNI on this AMI, but you could do that if
-you wanted.
 
 Before going on to create a new AMI from this instance, make sure to 
 test that your installed software completed correctly. You can 

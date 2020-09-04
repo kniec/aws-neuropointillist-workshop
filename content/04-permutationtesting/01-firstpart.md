@@ -218,7 +218,7 @@ cp permutations.RDS nlmemodel.perms
 We need to create a slurm job script, because permutation testing is life at the bleeding edge.
 
 ```bash
-cat > permutations.slurm.sh << EOF
+cat > permutations.slurm.sh << 'EOF'
 #!/bin/bash
 #Slurm submission options
 #SBATCH -o npointperm_%A_%a.out
@@ -234,9 +234,9 @@ model="$(pwd -P)/nlmemodel.permute.R"
 permfile="finger-Z.${num}permute.nii.gz"
 design="n.p.designmat.rds"
 
-echo running: srun -c 1 /usr/bin/time --verbose npointrun -m "${dashm}" --model "${model}" --permutationfile "${permfile}" -d "${design}"
+echo running: srun -c 1 /usr/bin/time --verbose npointrun -m ${dashm} --model ${model} --permutationfile ${permfile} -d "${design}"
 
-srun -c 1 /usr/bin/time --verbose npointrun -m "${dashm}" --model "${model}" --permutationfile "${permfile}" -d "${design}"
+srun -c 1 /usr/bin/time --verbose npointrun -m ${dashm} --model ${model} --permutationfile ${permfile} -d ${design}
 EOF
 ``` 
 
@@ -258,7 +258,7 @@ After the permutations have run, you'll be left with a number of `nii.gz` files 
 
 ```bash
 3dtoXdataset -prefix n.p.0001finger-Z \
-    ../mask.nii.gz \
+    ../oneslice_4mm.nii.gz \
     n.p.0001finger-Z.*.nii.gz
 ```
 Note that the sdat format requires you to specify a mask as the first argument to `3dtoXdataset`. The second argument is a list of files to be converted. This command results in a single 4D `sdat` file. 
