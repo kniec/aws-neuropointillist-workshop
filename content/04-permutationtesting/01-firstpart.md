@@ -97,7 +97,9 @@ You can find the below code with additional comments in `example.fingerfootlips/
 ```
 library(nlme)
 
-#This makes it easy to test the function (run these):
+#The code here makes it easy to test the function (uncomment and run 
+#these lines, and then you can run what is inside the function):
+#
 #load('nlmemodel/debug.Rdata')
 #attach(designmat)
 #v <- 1e5
@@ -189,9 +191,9 @@ Almost all of the pieces are in place to run Neuropointillist. The final steps a
 To follow the example, first create the `readargs.R` file. Let's also copy a smaller mask into this directory and replace the full mask with this smaller mask to run this more quickly. Note that the original file that uses the full mask can be found in `readargs.nlmemode.permute.R`.
 
 ```bash
-cp ../example.rawfmri/oneslice_4mm.nii.gz .
+cp ../example.rawfmri/smallermask.nii.gz .
 cat > readargs.R << EOF
-cmdargs <- c("-m","oneslice_4mm.nii.gz", 
+cmdargs <- c("-m","smallermask.nii.gz", 
              "--set1", "setfilenames1.txt",
              "--set2", "setfilenames2.txt",             
              "--setlabels1", "setlabels1.csv",
@@ -258,7 +260,7 @@ After the permutations have run, you'll be left with a number of `nii.gz` files 
 
 ```bash
 3dtoXdataset -prefix n.p.0001finger-Z \
-    ../oneslice_4mm.nii.gz \
+    ../smallermask.nii.gz \
     n.p.0001finger-Z.*.nii.gz
 ```
 Note that the sdat format requires you to specify a mask as the first argument to `3dtoXdataset`. The second argument is a list of files to be converted. This command results in a single 4D `sdat` file. 
@@ -269,13 +271,14 @@ Now you can use the `sdat` file to get the multi-thresh file. Bob Cox recommends
 
 ```bash
 export OMP_NUM_THREADS="1" #increase as much as you can
-3dXClustSim -inset mask.nii.gz \
+3dXClustSim -inset smallermask.nii.gz \
     n.p.0001finger-Z.sdat \
     -global \
     -prefix n.p.0001finger-Z.3dXClust
 ```
 
 This will output three files:
+
 1. globalETAC.mthresh.n.p.0001finger-Z.3dXClust.A.5perc.niml
 2. n.p.0001finger-Z.3dXClust.mthresh.A.5perc+tlrc.BRIK
 3. n.p.0001finger-Z.3dXClustmthresh.A.5perc+tlrc.HEAD
@@ -284,23 +287,29 @@ The `.niml` file is something that contains the thresholds, and it does not appe
 
 ### Applying the thresholds
 
-The `3dMultiThresh` command creates a version of your group-level model that is appropriately thresholded according to the above ETAC mthresh files. In addition to this thresholded map, it may also produce, when passed the `-allmask` option, a multi-volume dataset where each volume is a binary mask of voxels that pass one of the test.
+The `3dMultiThresh` command creates a version of your group-level model that is appropriately thresholded according to the above ETAC mthresh files. In addition to this thresholded map, it may also produce, when passed the `-allmask` option, a multi-volume dataset where each volume is a binary mask of voxels that pass one of the tests.
 
-The following code presumes that my group-level model output for the variable of interest is in `chavg.WCEN_CHRONICAVG-t_sw.nii.gz`, and that it has been set up so that AFNI knows that it is a map of *t*-statistics with specific degrees of freedom. It may be simpler to ensure that the group-level map is output in terms of *Z*-scores. It still may be necessary to run, e.g., `3drefit -fizt group_stats_map.nii.gz`.
+The following code presumes that the group-level model output for the variable of interest is a file called `../nlmemodel/n.finger.tstat.nii.gz`, and that it has been set up so that AFNI knows that it is a map of *t*-statistics with specific degrees of freedom. It may be simpler to ensure that the group-level map is output in terms of *Z*-scores. It still may be necessary to run, e.g., `3drefit -fizt group_stats_map.nii.gz`.
 
 ```bash
-3dMultiThresh -mthresh perm.free.chavg.WCEN_CHRONICAVG-z_sw.3dXClust.mthresh.A.5perc+tlrc \
-    -input chavg.WCEN_CHRONICAVG-t_sw.nii.gz \
-    -prefix chavg.WCEN_CHRONICAVG-t_sw.multi-threshed.nii.gz \
-    -allmask chavg.WCEN_CHRONICAVG-t_sw.multi-threshed.all-mask.nii.gz \
+3dMultiThresh -mthresh n.p.0001finger-Z.3dXClust.mthresh.A.5perc+tlrc \
+    -input ../nlmemodel/n.finger.tstat.nii.gz \
+    -prefix n.finger.tstat.multi-threshed.nii.gz \
+    -allmask n.finger.tstat.multi-threshed.all-mask.nii.gz \
     -nozero
 ```
 
 The `-nozero` option avoids creating new files if no clusters survive correction.
 
-You are now able to visualize your thresholded statistical map (`chavg.WCEN_CHRONICAVG-t_sw.multi-threshed.nii.gz` in this example) in AFNI or whatever your favorite program is.
+You are now able to visualize your thresholded statistical map (`n.finger.tstat.multi-threshed.nii.gz` in this example) in AFNI or whatever your favorite program is.
 
 ## References
 
-Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M., & Nichols, T. E. (2014). Permutation inference for the general linear model. _NeuroImage_, _92_, 381–397. [https://doi.org/10.1016/j.neuroimage.2014.01.060](https://doi.org/10.1016/j.neuroimage.2014.01.060)
+Anderson, M. J., & Legendre, P. (1999). An empirical comparison of permutation methods for tests of partial regression coefficients in a linear model. Journal of Statistical Computation and Simulation, 62(3), 271–303. https://doi.org/10.1080/00949659908811936
+
+Freedman, D., & Lane, D. (1983). A Nonstochastic Interpretation of Reported Significance Levels. Journal of Business & Economic Statistics, 1(4), 292–298. JSTOR. https://doi.org/10.2307/1391660
+
+Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M., & Nichols, T. E. (2014). Permutation inference for the general linear model. NeuroImage, 92, 381–397. https://doi.org/10.1016/j.neuroimage.2014.01.060
+
+
 
