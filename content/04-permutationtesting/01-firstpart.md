@@ -166,7 +166,7 @@ processVoxel <-function(v) {
     #Finger condition (there are also other ways to get these values):
     #
     #          1 + Finger + Foot + Lips + WhiteMatter + X + Y + Z + RotX + RotY + RotZ
-    contr <- c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    contr <- c(0,       1,     0,     0,            0,  0,  0,  0,     0,     0,     0)
     out <- anova(mod, L = contr)
     finger.p <- out[["p-value"]]
     finger.Z <- qnorm(finger.p)
