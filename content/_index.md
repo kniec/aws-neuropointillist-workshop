@@ -11,7 +11,7 @@ First, fMRI analysis packages are generally quite limited in the models that the
 
 Second, it is really instructive to understand what fMRI software is doing with your data. T statistics are so much sweeter when you have generated them with your own R code.
 
-The [neuropointillist package](https://github.com/IBIC/neuropointillist)  has functions to combine multiple sets of neuroimaging data, run arbitrary R code (a "model") on each voxel in parallel, output results, and reassemble the data. Included are three standalone programs. npoint and npointrun use the neuropointillist package, and npointmerge uses reassembles results.
+The [neuropointillist package](https://github.com/IBIC/neuropointillist)  has functions to combine multiple sets of neuroimaging data, run arbitrary R code (a "model") on each voxel in parallel, output results, and reassemble the data. Included are three standalone programs. npoint and npointrun use the neuropointillist package, and npointmerge  reassembles results.
 
 This tutorial describes how to run this package on Amazon Web Services (AWS). And why would you want to do that? Writing code in R is fast (for the human) but is not as optimized for computers as fMRI packages that were developed to be more efficient. However, AWS offers you the ability to create [scalable clusters](https://aws.amazon.com/hpc/) to run this kind of massively parallel code.
 
