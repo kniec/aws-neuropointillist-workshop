@@ -56,7 +56,7 @@ weight = 10
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-users'></i> Authors"
-url = "https://master.dh0bc6a3ml9m0.amplifyapp.com//authors.html"
+url = "https://master.dh0bc6a3ml9m0.amplifyapp.com/authors.html"
 weight = 20
 
 [[menu.shortcuts]]

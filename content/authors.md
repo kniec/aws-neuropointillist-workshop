@@ -3,14 +3,12 @@ title: Authors
 disableToc: true
 ---
 
-This tutorial is based on the work of many, including
+<p>This tutorial is based on the work of many, including</p>
+<ul>
+<li>Tara Madhyastha <a href="mailto:taramad@amazon.com">taramad@amazon.com</a></li>
+<li>Kate Mills<a href="mailto:klmills@uoregon.edu">klmills@uoregon.edu</a></li>
+<li>John Flournoy<a href="mailto:john_flournoy@g.harvard.edu">john_flournoy@g.harvard.edu</a></li>
+</ul>
 
- * Pierre-Yves Aquilanti  <pierreya@amazon.com>
- * Kevin Jorissen <jorissen@amazon.com>
- * Lee Pang <pwyming@amazon.com>
- * Tara Madhyastha <taramad@amazon.com>
- * Ankit Malhotra <ankmal@amazon.com>
- * Linda Hedges  <hedgesl@amazon.com>
- * Anh Tran <trhn@amazon.com>
 
 
