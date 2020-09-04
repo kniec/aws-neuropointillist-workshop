@@ -12,11 +12,17 @@ for the finger, foot, and lips contrasts.
 
 
 Here is an overview of the steps needed after fitting the model of interest :
+
 1. Generate a permutation matrix using the R package `permute`, or your favorite tool (ensure that it respects your data structure and statistical question).
+
 2. Write a `processVoxel` function that returns a _Z_-score from the statistical test used for the model of interest.
+
 3. Compose the `readargs.R` file to use the permutation feature of Neuropointillist, and make sure the base directory has all the necessary files (at the moment, you have to copy the permutation matrix RDS file there).
+
 4. Run `npoint` to create the permutation job.
+
 5. Compose a batch script appropriate for your scheduler (we will use a SLURM batch in this example).
+
 6. Run the N permutation jobs (this may take a little while).
 
 To use AFNI's Equitable Thresholding and Clustering (ETAC) method for
@@ -26,16 +32,13 @@ cluster correction, follow these additional steps:
 9. Run `3dXClustSim` using the _Z_-maps as input.
 10. Run `3dMultithresh` to apply the ETAC threshold to the output image for the statistical test from the observed data.
 
-_Caveat:_ If you're test of interest is simple, AFNI already has great tools that implement permutation testing---for example, `3dttest++`. FSL's randomise can handle nested data for almost any design you can generate with FEAT, which may include some repeated-measures designs. 
+_Caveat:_ If your test of interest is simple, AFNI already has great
+tools that implement permutation testing---for example,
+`3dttest++`. FSL's randomise can handle nested data for almost any
+design you can generate with FEAT, which may include some
+repeated-measures designs.
 
-In longitudinal neuroimaging, the model the best captures the relationship of interest may not be one supported by existing software. In this case, you can use Neuropointillist to construct the model of interest and an appropriate permutation testing scheme.
-
-For the record, this example was run with the following software versions:
-
-- Neuropointillist 0.0.0.9000 (Fork https://github.com/jflournoy/neuropointillist.git branch=ffl-permutation-example)
-- FSL 6.0.2
-- AFNI 18.3.05
-- R 3.5.1
+In longitudinal neuroimaging, the model that best captures the relationship of interest may not be one supported by existing software. In this case, you can use Neuropointillist to construct the model of interest and an appropriate permutation testing scheme.
 
 
 ## Generating permutations
@@ -69,7 +72,11 @@ permpath <- file.path('permutations.RDS')
 saveRDS(perm_set, permpath)
 ```
 
- A much more well commented version exists in the `example.fingerfootlips` directory and can be run from the command line by executing `./04write_permutations.nlmemodel.R`. 
+A much more well commented version of this code is in the `example.fingerfootlips` directory. Run this as follows.
+
+```bash
+./04write_permutations.nlmemodel.R
+```
 
 This script outputs a single file called `permutations.RDS` which needs to be copied into the permutation base directory once we've created it. But first we need to write the processVoxel funciton.
 
@@ -175,41 +182,48 @@ processVoxel <-function(v) {
 
 The code above is very similar to the `processVoxel` function for the target model. In fact, except for the permutation steps, it should be essentially identical. The one major difference is that we only return a single statistic.
 
-# Using Neuropointillist
+## Using Neuropointillist
 
 Almost all of the pieces are in place to run Neuropointillist. The final steps are to create a `readargs.R` file, run `npoint`, and copy `permutations.RDS`to the permutations base directory.
 
-To follow the example, you can simply `cp readargs.nlmemodel.permute.R readargs.R`. Here's what that readargs.R file looks like:
+To follow the example, first create the `readargs.R` file. Let's also copy a smaller mask into this directory and replace the full mask with this smaller mask to run this more quickly. Note that the original file that uses the full mask can be found in `readargs.nlmemode.permute.R`.
 
-```
-cmdargs <- c("-m","mask.nii.gz", 
+```bash
+cp ../example.rawfmri/oneslice_4mm.nii.gz .
+cat > readargs.R << EOF
+cmdargs <- c("-m","oneslice_4mm.nii.gz", 
              "--set1", "setfilenames1.txt",
              "--set2", "setfilenames2.txt",             
              "--setlabels1", "setlabels1.csv",
              "--setlabels2", "setlabels2.csv", 
              "--model", "nlmemodel.permute.R",
-             "--testvoxel", "10000",
+             "--testvoxel", "500",
              "--output", "nlmemodel.perms/n.p.",
              "--debugfile", "debug.Rdata",
              "--slurmN", "1", #This is ignored
              "--permute", "1000")
+EOF
+```
+Next run `npoint` which creates the base directory, `nlmemodel.perms`,  and tests the model.
+
+```bash
+npoint
 ```
 
-With `readargs.R` in place, we run `npoint` which creates the base directory, `nlmemodel.perms`,  and tests the model.
-
-Now, copy our permutations into this new directory with `cp permutations.RDS nlmemodel.perms/`. If you're using a SLURM scheduler, you can also copy the pre-written `permutations.slurm.bash` file to `nlmemodel.perms/`. This file specifies what should be run for each of the 1000 permutation jobs.
-
+Now, copy our permutations into this new directory.
+```bash
+cp permutations.RDS nlmemodel.perms
 ```
+
+We need to create a slurm job script, because permutation testing is life at the bleeding edge.
+
+```bash
+cat > permutations.slurm.sh << EOF
 #!/bin/bash
-
-#To run this for 1000 permutations execute:
-# `sbatch --array=1-1000 permutations.slurm.bash`
-
 #Slurm submission options
 #SBATCH -o npointperm_%A_%a.out
 #SBATCH --mail-type=END
 
-cp ~/.R/Makevars.gcc ~/.R/Makevars
 
 export OMP_NUM_THREADS=1
 
@@ -223,9 +237,17 @@ design="n.p.designmat.rds"
 echo running: srun -c 1 /usr/bin/time --verbose npointrun -m "${dashm}" --model "${model}" --permutationfile "${permfile}" -d "${design}"
 
 srun -c 1 /usr/bin/time --verbose npointrun -m "${dashm}" --model "${model}" --permutationfile "${permfile}" -d "${design}"
+EOF
 ``` 
 
-To run this, we execute `sbatch --array=1-1000 permutations.slurm.bash`.  After it's done, we'll be left with 1,000 files called `n.p.0001finger-Z.NNNN.nii.gz`, where NNNN is an index from 0001-1000. 
+Now submit the slurm job.
+
+```bash
+sbatch --array=1-1000 permutations.slurm.sh
+```
+
+When this completes, we'll be left with 1,000 files called `n.p.0001finger-Z.NNNN.nii.gz`, where NNNN is an index from 0001-1000. 
+
 
 ## Creating ETAC multi-threshold
 
