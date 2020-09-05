@@ -303,7 +303,7 @@ _Note:_ I set `-prefix` and `-allmask` below to create the new files in the dire
 
 The `-nozero` option avoids creating new files if no clusters survive correction.
 
-You are now able to visualize your thresholded statistical map (`n.finger.tstat.multi-threshed.nii.gz` in this example) in AFNI or whatever your favorite program is.
+You are now able to visualize your thresholded statistical map (`n.finger.tstat.multi-threshed.nii.gz` in this example) in AFNI or whatever your favorite program is. If you do want to use AFNI, it helps to have a standard anatomical map for use as an underlay. You can copy one from FSL by executing `cp  $AFNI_HOME/MNI_avg152T1+tlrc* ./`. It can also be helpful to set the space for the multi-threshed images so that AFNI knows it can overlay it on a standard anatomical map. Do so by running `3drefit -view tlrc -space MNI n.finger.tstat.multi-threshed.*nii.gz` in whatever directory you saved those files.
 
 ## References
 
