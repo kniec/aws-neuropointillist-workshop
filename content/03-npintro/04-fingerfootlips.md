@@ -92,5 +92,4 @@ EOF
 
 •  For a much better example, look at lmermodel.R for an example of modeling fMRI data. 
 
-•  Look at how we prewhiten the data for lmer using AFNI (`03prewhiten`). Note that in the Flux workshop, we have not pre-installed AFNI, so you will have to do that if you wish to run this script or the lmermodel.R example.
-
+•  Look at how we prewhiten the data for lmer using AFNI (`03prewhiten`). We haven't run that in advance for you so feel free to give it a try.
