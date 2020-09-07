@@ -280,8 +280,8 @@ export OMP_NUM_THREADS="1" #increase as much as you can
 This will output three files:
 
 1. globalETAC.mthresh.n.p.0001finger-Z.3dXClust.A.5perc.niml
-2. n.p.0001finger-Z.3dXClust.mthresh.A.5perc+tlrc.BRIK
-3. n.p.0001finger-Z.3dXClustmthresh.A.5perc+tlrc.HEAD
+2. n.p.0001finger-Z.3dXClust.mthresh.A.5perc+orig.BRIK
+3. n.p.0001finger-Z.3dXClustmthresh.A.5perc+orig.HEAD
 
 The `.niml` file is something that contains the thresholds, and it does not appear this is required for applying the threshold. It's plain text, so feel free to inspect it.
 
