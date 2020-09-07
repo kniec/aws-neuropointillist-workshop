@@ -72,7 +72,7 @@ As we did in the previous example, modify these scripts and submit the jobs.
 cd nlmemodel
 
 #create a better slurm submit script
-cat > slurmjob.bash << EOF
+cat > slurmjob.bash << 'EOF'
 #!/bin/bash
 #Slurm submission options
 
