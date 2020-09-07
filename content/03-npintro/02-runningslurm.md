@@ -21,9 +21,9 @@ extension). You can also see the `debug.Rdata` file.
 The files that are used to actually run the model begin with
 “runme”. 
 There is  a file called `runme.slurm`, which will submit the
-job to the queuing system to execute. This script uses the job submission script suggestively named `slurmjob.batch`. 
+job to the queuing system to execute. This script uses the job submission script suggestively named `slurmjob.bash`. 
 
-Open `slurmjob.batch` with an editor.
+Open `slurmjob.bash` with an editor.
 
 If you are running on your local cluster, there are a variety of
 options that you might need to configure here, such as your partition,
@@ -36,7 +36,7 @@ resources to run the jobs so we can delete that information.
 Edit the file to remove the `-p`, `--mem`, and `--time` flags. Alternatively you can recreate it by cutting and pasting below. Note that we have left instructions to email when the job is finished, but we have not configured email - so that won't work.
 
 ```bash
-cat > slurmjob.batch << EOF
+cat > slurmjob.bash << EOF
 #!/bin/bash
 #Slurm submission options
 #SBATCH --mail-type=END
