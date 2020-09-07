@@ -36,7 +36,7 @@ resources to run the jobs so we can delete that information.
 Edit the file to remove the `-p`, `--mem`, and `--time` flags. Alternatively you can recreate it by cutting and pasting below. Note that we have left instructions to email when the job is finished, but we have not configured email - so that won't work.
 
 ```bash
-cat > slurmjob.bash << EOF
+cat > slurmjob.bash << 'EOF'
 #!/bin/bash
 #Slurm submission options
 #SBATCH --mail-type=END
@@ -87,6 +87,12 @@ You can also get information about the nodes that have come online.
 ```bash
 sinfo
 ```
+
+Finally, you can cancel a job using the number from the `squeue` command. For example, this command cancels job number 128.
+```bash
+scancel 128
+```
+
 
 ![Slurm](/images/neuropoint/sinfo.png)
 
