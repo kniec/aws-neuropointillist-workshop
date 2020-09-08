@@ -24,7 +24,7 @@ to access the fMRI data for model development.
 Note that commands in this section alternate between bash commands in
 a terminal, and R commands.
 
-### Loading the Debug Data
+### Debugging Walkthrough
 
 Go into the `nlme` directory and launch `rstudio` as below.
 ```bash
@@ -79,3 +79,17 @@ x <- processVoxel(v)
 x
 ```
 
+### Create a Small Data File 
+It is easy to prepare a small file with a few sample voxels to use when working with collaborators and trying different models.
+
+For example, suppose we have identified voxels v1, v2 and v3 (we will just assign them randomly here).
+
+```R
+v1 <- imagecoordtovertex(36,31,29)
+v2 <- imagecoordtovertex(36,31,30)
+v3 <- imagecoordtovertex(36,31,31)
+voxels <- voxeldat[,c(v1,v2,v3)]
+colnames(voxels) <- c("v1", "v2", "v3")
+dat <- data.frame(designmat, voxels)
+write.csv(dat, "testdata.csv")
+```
