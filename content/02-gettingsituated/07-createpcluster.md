@@ -80,7 +80,7 @@ master_subnet_id = ${SUBNET_ID}
 
 [ebs myebs]
 shared_dir = /shared
-ebs_snapshot_id=snap-05f29d01489d66b1c
+ebs_snapshot_id=snap-022bc59d35c4ddadc
 volume_type = gp2
 volume_size = 30
 
