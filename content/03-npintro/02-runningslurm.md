@@ -87,14 +87,13 @@ You can also get information about the nodes that have come online.
 ```bash
 sinfo
 ```
+![Slurm](/images/neuropoint/sinfo.png)
 
 Finally, you can cancel a job using the number from the `squeue` command. For example, this command cancels job number 128.
 ```bash
 scancel 128
 ```
 
-
-![Slurm](/images/neuropoint/sinfo.png)
 
 Notice that AWS ParallelCluster only starts as many nodes as it
 needs to to do the work. Each instance in our cluster has two virtual
