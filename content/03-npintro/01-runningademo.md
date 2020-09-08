@@ -55,7 +55,7 @@ but I thought this approach helped keep all the files straight.
 The arguments specify the following: 
 
 ```
--m ouleslice_4mm.nii.gz
+-m oneslice_4mm.nii.gz
 ```
 This is a NiFTI file that contains a “1” in every voxel that should be analyzed
 and a “0” in every voxel you would like to ignore. Because we only
