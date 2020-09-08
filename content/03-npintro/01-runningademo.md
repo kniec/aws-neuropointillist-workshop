@@ -55,14 +55,14 @@ but I thought this approach helped keep all the files straight.
 The arguments specify the following: 
 
 ```
--m mask_4mm.nii.gz
+-m ouleslice_4mm.nii.gz
 ```
 This is a NiFTI file that contains a “1” in every voxel that should be analyzed
 and a “0” in every voxel you would like to ignore. Because we only
 analyze voxels that are in the brain, in grey matter, or in a
 particular structure, the mask greatly cuts down on computation time.
-To shorten the time to run the example, replace this file with
-oneslice_4mm.nii.gz.
+To shorten the time to run the example during class, we have used the file
+oneslice_4mm.nii.gz as the mask. This is just a single brain slice. By default, you could use the file "mask.4mm.nii" for the entire brain mask.
 
 ```
 -set1 setfilenames1.txt
@@ -89,10 +89,7 @@ command line flags.
 ```
 This flag specifies the code that you provide. This code will be run on each voxel from the voxeldat and “attaches” to the variables in the designmat so that you can use those variables in ANY WAY and save ANY THINGS out to files. 
 
-```
--output sgedata/sim
-```
-This flag specifies a prefix for all the output files. 
+
 
 ```
 -debug debug.Rdata
@@ -100,30 +97,17 @@ This flag specifies a prefix for all the output files.
 It is helpful when developing your model to test it. This debug flag specifies to write out the data structures into an Rdata file that you can read into R, to more closely figure out what is going on in particular voxels.
 
 ```
--sgeN 10
+-slurmN 10
 ```
 This flag specifies how many pieces to split up the processing.
 
-#### Make some changes to this configuration 
-
-We just created a cluster that uses the slurm scheduler, not
-SGE. Slurm is very popular among researchers and is well
-supported. So, modify the output directory to be `slurmdata` rather
-than `sgedata` and change the `--sgeN` flag to be `slurmN`. Or if you
-prefer, you can simply cut and paste below.
-
-```bash
-cat > readargs.R << EOF
-cmdargs <- c("-m","oneslice_4mm.nii.gz", "--set1", "setfilenames1.txt",
-             "--set2", "setfilenames2.txt",             
-             "--setlabels1", "setlabels1.csv",
-             "--setlabels2", "setlabels2.csv",             
-             "--model", "fmrimodel.R",
-             "--output", "slurmdata/sim.",
-             "--debug", "debug.Rdata",
-             "--slurmN", "10")
-EOF
 ```
+-output slurmdata/sim
+```
+This flag specifies a prefix for all the output files. 
+
+In the previous section, we created a cluster that uses the slurm scheduler. Slurm is very popular among researchers and is well
+supported. If you do not use slurm, you can change these last two flags for your scheduler (SGE or PBS).
 
 #### What npoint does
 - It reads the mask and every one of the files listed in the setfiles.
