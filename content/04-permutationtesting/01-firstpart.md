@@ -5,6 +5,8 @@ weight = 30
 tags = ["tutorial","testing","ETAC", "Permutation"]
 +++
 
+_Note:_ Slides that cover some of the conceptual content related to the below tutorial can be viewed as a [pdf](/pdf/Permutation_Testing_ETAC.pdf) or as [Google slides](https://docs.google.com/presentation/d/13G3YPLu0iGNSNQGqR4tVOIicyn8scSYuDgoAOhbKdWw/edit?usp=sharing).
+
 This assumes that you have completed the finger-foot-lips example
 using the `nlmemodel.R` model. You should have a directory called
 `nlmemodel/` with a `debug.Rdata` file, p-value maps, and t-score maps
